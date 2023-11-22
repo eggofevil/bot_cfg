@@ -4,12 +4,19 @@
     "react-dom": "^18.0.0",
     "react-scripts": "^5.0.0"
   },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0"
+  },
   "main": "/index.js",
-  "devDependencies": {},
   "name": "bot_cfg",
   "description": "scratch for creating react app with 'Create React App' https://create-react-app.dev/, based on example form https://react.dev/learn/tutorial-tic-tac-toe",
   "version": "0.0.1",
   "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco --env=jsdom"
+  },
+  "scripts-original": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
