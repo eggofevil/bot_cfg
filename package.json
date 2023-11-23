@@ -6,13 +6,16 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.1.0"
+    "@craco/craco": "^7.1.0",
+    "gh-pages": "^6.1.0"
   },
   "main": "/index.js",
   "name": "bot_cfg",
   "description": "scratch for creating react app with 'Create React App' https://create-react-app.dev/, based on example form https://react.dev/learn/tutorial-tic-tac-toe",
   "version": "0.0.1",
   "scripts": {
+    "predeploy-all": "npm run build",
+    "deploy-all": "node gh-pages.js -s -b",
     "start": "craco start",
     "build": "craco build",
     "test": "craco --env=jsdom"
