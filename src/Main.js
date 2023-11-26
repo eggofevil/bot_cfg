@@ -1,10 +1,5 @@
 import React from "react";
 import getExternalData from "./externalData";
-//import jsonData from "https://static.wbstatic.net/data/main-menu-ru-ru.json";
-//mport jsonData from "https://static.wbstatic.net/data/main-menu-ru-ru.json" assert { type: "json" };
-//let jsonData = require("https://static.wbstatic.net/data/main-menu-ru-ru.json");
-
-console.log("hello world!");
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -26,8 +21,24 @@ export default class Main extends React.Component {
   }
 
   render() {
-    const data = this.state.data ? JSON.stringify(this.state.data) : null;
-    console.log(typeof this.state.data);
-    return <div className="main">{data ? data : "Nothing to say"}</div>;
+    const data = this.state.data;
+    let main = <div className="main">"Nothing to say"</div>;
+    if (data) {
+      function createList(objects) {
+        const list = objects.map((object) => {
+          return (
+            <li>
+              <p>"ID": {object.id}</p>
+              <p>"NAME": {object.name}</p>
+              {object.childs ? createList(object.childs) : null}
+            </li>
+          );
+        });
+        return <ul>{list}</ul>;
+      }
+      main = <div className="main">{createList(data)}</div>;
+    }
+
+    return main;
   }
 }

@@ -6,7 +6,6 @@ export default function getExternalData(updateMainData) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       updateMainData(data);
     })
     .catch((error) => {
