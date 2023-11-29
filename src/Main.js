@@ -60,7 +60,7 @@ export default class Main extends React.Component {
     }
 
     return (
-      <div className="main">
+      <>
         {this.state.data ? (
           <ul>
             {createList("main", this.state.data, this.handleItemCheck, "")}
@@ -68,7 +68,7 @@ export default class Main extends React.Component {
         ) : (
           "Данные не получены"
         )}
-      </div>
+      </>
     );
   }
 }
