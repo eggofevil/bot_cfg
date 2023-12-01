@@ -1,7 +1,7 @@
 import React from "react";
 
-import Item from "./Item";
 import getExternalData from "./getExternalData";
+import List from "./List";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -10,16 +10,19 @@ export default class Main extends React.Component {
       data: null,
       checkedItems: [],
     };
-    this.handleDataRecieved = this.handleDataRecieved.bind(this);
-    this.handleItemCheck = this.handleItemCheck.bind(this);
   }
 
-  handleDataRecieved(externalData) {
+  componentDidMount() {
+    getExternalData(this.handleDataRecieved);
+  }
+
+  handleDataRecieved = (externalData) => {
     this.setState({
       data: externalData,
     });
-  }
-  handleItemCheck(itemId) {
+  };
+
+  setCheckedItems = (itemId) => {
     this.setState((prevState) => {
       const newCheckedItems = prevState.checkedItems.slice();
       const itemIndex = newCheckedItems.indexOf(itemId);
@@ -30,45 +33,29 @@ export default class Main extends React.Component {
         checkedItems: newCheckedItems,
       };
     });
-  }
+  };
 
-  componentDidMount() {
-    getExternalData(this.handleDataRecieved);
-  }
+  showList = () =>
+    this.state.checkedItems.map((item) => (
+      <p style={{ display: "inline" }}>{item + ", "}</p>
+    ));
 
   render() {
-    function createList(id = "main", objects, handleItemCheck, parentNumber) {
-      const Items = objects.map((object, index) => {
-        const itemNumber = parentNumber + (parentNumber ? "-" : "") + index;
-        const id = object.id;
-        const name = object.name;
-        const childs = object.childs
-          ? createList(id, object.childs, handleItemCheck, itemNumber)
-          : null;
-        return (
-          <Item
-            key={itemNumber}
-            itemNumber={itemNumber}
-            itemId={id}
-            itemName={name}
-            onItemCheck={handleItemCheck}
-            itemChilds={childs}
+    if (this.state.data)
+      return (
+        <>
+          <List
+            objects={this.state.data}
+            parentChecked={false}
+            onItemCheck={this.setCheckedItems}
+            hidden={false}
           />
-        );
-      });
-      return Items;
-    }
-
-    return (
-      <>
-        {this.state.data ? (
-          <ul>
-            {createList("main", this.state.data, this.handleItemCheck, "")}
-          </ul>
-        ) : (
-          "Данные не получены"
-        )}
-      </>
-    );
+          <div className="show-list">
+            <p>Checked items:</p>
+            {this.showList()}
+          </div>
+        </>
+      );
+    else return "Данные не получены";
   }
 }

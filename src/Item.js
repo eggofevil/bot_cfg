@@ -1,30 +1,55 @@
 import React from "react";
+import List from "./List";
 
 export default class Item extends React.Component {
+  /*
+  itemId
+  itemName
+  parentChecked
+  onItemCheck
+  itemChilds    
+  
+  //key={itemNumber}
+  //itemNumber={itemNumber}
+  //itemChecked={checked}
+  */
   constructor(props) {
     super(props);
     this.state = {
-      itemChecked: false,
-      childsHidden: true,
+      checked: this.props.parentChecked,
+      listHidden: true,
     };
   }
 
-  handleCheckBoxChange = () => {
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.parentChecked !== prevProps.parentChecked &&
+      this.props.parentChecked !== this.state.checked
+    ) {
+      console.log("мне бы поменять стейт");
+      this.handleChange();
+    }
+  }
+
+  handleChange = () => {
+    const { onItemCheck, itemId } = this.props;
     this.setState(
       {
-        itemChecked: !this.state.itemChecked,
+        checked: !this.state.checked,
       },
-      () => this.props.onItemCheck(this.props.itemId)
+      () => onItemCheck(itemId)
     );
   };
 
   handleExpandClick = () => {
-    this.setState({ childsHidden: !this.state.childsHidden });
+    this.setState({ listHidden: !this.state.listHidden });
   };
 
   render() {
-    const { itemId, itemName, itemChilds, itemNumber } = this.props;
-    let expandButton = itemChilds ? (
+    const { itemId, itemName, onItemCheck, itemChilds } = this.props;
+    const { checked, listHidden } = this.state;
+
+    const expandButton = itemChilds ? (
       <button className={"expand"} onClick={this.handleExpandClick}>
         +
       </button>
@@ -33,22 +58,22 @@ export default class Item extends React.Component {
     );
     return (
       <li>
-        <div className="info">
-          {expandButton}
-          <input
-            id={"chbx-" + itemNumber}
-            className="checkbox"
-            type="checkbox"
-            checked={this.state.itemChecked}
-            onChange={this.handleCheckBoxChange}
+        {expandButton}
+        <input
+          className="checkbox"
+          type="checkbox"
+          checked={checked}
+          onChange={this.handleChange}
+        />
+        <div className="info">{itemName + " (ID:" + itemId + ")"}</div>
+        {itemChilds && (
+          <List
+            objects={itemChilds}
+            parentChecked={checked}
+            onItemCheck={onItemCheck}
+            hidden={listHidden}
           />
-          {itemName} : {itemId}
-        </div>
-        {itemChilds ? (
-          <ul className={this.state.childsHidden ? "childs hidden" : "childs"}>
-            {itemChilds}
-          </ul>
-        ) : null}
+        )}
       </li>
     );
   }
