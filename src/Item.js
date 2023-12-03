@@ -1,11 +1,11 @@
 import React from "react";
 import List from "./List";
 
-export default class Item extends React.Component {
+export default class Item extends React.PureComponent {
   /*
   itemId
   itemName
-  parentChecked
+  allChecked
   onItemCheck
   itemChilds    
   
@@ -16,62 +16,60 @@ export default class Item extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: this.props.parentChecked,
+      checked: false,
       listHidden: true,
     };
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.parentChecked !== prevProps.parentChecked &&
-      this.props.parentChecked !== this.state.checked
-    ) {
-      console.log("мне бы поменять стейт");
-      this.handleChange();
-    }
+    if (prevProps.allChecked !== this.props.allChecked) this.handleCheck();
   }
 
-  handleChange = () => {
+  handleCheck = () => {
     const { onItemCheck, itemId } = this.props;
-    this.setState(
-      {
-        checked: !this.state.checked,
-      },
-      () => onItemCheck(itemId)
-    );
+    const { checked } = this.state;
+    this.setState({ checked: !checked }, () => onItemCheck(itemId));
   };
 
-  handleExpandClick = () => {
+  handleExpand = () => {
     this.setState({ listHidden: !this.state.listHidden });
   };
 
   render() {
-    const { itemId, itemName, onItemCheck, itemChilds } = this.props;
+    const { itemId, itemName, allChecked, onItemCheck, itemChilds, itemNum } =
+      this.props;
     const { checked, listHidden } = this.state;
+    const { handleCheck, handleExpand } = this;
+    let expandButton = <div className="expand-placeholder"></div>;
+    let listNum;
+    let listKey;
+    if (itemChilds) {
+      expandButton = (
+        <button className={"expand"} onClick={handleExpand}></button>
+      );
+      listNum = itemNum;
+      listKey = "ls-" + listNum;
+    }
 
-    const expandButton = itemChilds ? (
-      <button className={"expand"} onClick={this.handleExpandClick}>
-        +
-      </button>
-    ) : (
-      <div className="expand-placeholder"></div>
-    );
     return (
       <li>
         {expandButton}
         <input
-          className="checkbox"
+          className="check item"
           type="checkbox"
           checked={checked}
-          onChange={this.handleChange}
+          onChange={handleCheck}
+          id={"chbx-" + itemNum}
         />
         <div className="info">{itemName + " (ID:" + itemId + ")"}</div>
         {itemChilds && (
           <List
             objects={itemChilds}
-            parentChecked={checked}
-            onItemCheck={onItemCheck}
+            allChecked={allChecked}
             hidden={listHidden}
+            onItemCheck={onItemCheck}
+            listNum={listNum}
+            key={listKey}
           />
         )}
       </li>

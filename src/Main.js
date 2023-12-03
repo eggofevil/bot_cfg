@@ -36,26 +36,31 @@ export default class Main extends React.Component {
   };
 
   showList = () =>
-    this.state.checkedItems.map((item) => (
-      <p style={{ display: "inline" }}>{item + ", "}</p>
+    this.state.checkedItems.map((item, index) => (
+      <p style={{ display: "inline" }} key={"id-" + index}>
+        {item + ", "}
+      </p>
     ));
 
   render() {
-    if (this.state.data)
+    if (this.state.data) {
+      const listNum = 0;
+      const listKey = "ls-" + listNum;
       return (
         <>
           <List
             objects={this.state.data}
-            parentChecked={false}
             onItemCheck={this.setCheckedItems}
             hidden={false}
+            listNum={listNum}
+            key={listNum}
           />
           <div className="show-list">
-            <p>Checked items:</p>
+            <p>Выделенные категории:</p>
             {this.showList()}
           </div>
         </>
       );
-    else return "Данные не получены";
+    } else return "Данные не получены";
   }
 }
