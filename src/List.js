@@ -13,21 +13,25 @@ export default class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allChecked: false,
+      checked: false,
     };
   }
 
   componentDidUpdate(prevProps) {
-    this.props.allChecked !== prevProps.allChecked ? this.handleCheck() : null;
+    const { checkChilds } = this.props;
+    const { checked } = this.state;
+    if (prevProps.checkChilds !== checkChilds && checkChilds !== checked)
+      this.handleCheck();
   }
 
   handleCheck = () => {
-    this.setState({ allChecked: !this.state.allChecked });
+    this.setState({ checked: !this.state.checked });
   };
 
   render() {
     const { objects, onItemCheck, hidden, listNum } = this.props;
-    const { allChecked } = this.state;
+    const { checked } = this.state;
+    const { handleCheck } = this;
 
     const sectionClassName = hidden ? "childs hidden" : "childs";
     const list = objects.map((object, index) => {
@@ -40,7 +44,7 @@ export default class List extends React.Component {
         <Item
           itemId={id}
           itemName={name}
-          allChecked={allChecked}
+          checkChilds={checked}
           onItemCheck={onItemCheck}
           itemChilds={childs}
           itemNum={itemNum}
@@ -54,8 +58,8 @@ export default class List extends React.Component {
           <input
             className="chbx custom check-list"
             type="checkbox"
-            checked={this.state.allChecked}
-            onChange={this.handleCheck}
+            checked={checked}
+            onChange={handleCheck}
             id={"list-chbx-" + listNum}
           />
         </span>

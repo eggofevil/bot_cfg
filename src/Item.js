@@ -5,7 +5,7 @@ export default class Item extends React.PureComponent {
   /*
   itemId
   itemName
-  allChecked
+  checkChilds
   onItemCheck
   itemChilds    
   
@@ -22,13 +22,13 @@ export default class Item extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { allChecked } = this.props;
+    const { checkChilds } = this.props;
     const { checked } = this.state;
-    if (prevProps.allChecked !== allChecked && allChecked !== checked)
+    if (prevProps.checkChilds !== checkChilds && checkChilds !== checked)
       this.handleCheck();
   }
 
-  handleCheck = (checkedState) => {
+  handleCheck = () => {
     const { onItemCheck, itemId } = this.props;
     const { checked } = this.state;
     this.setState({ checked: !checked }, () => onItemCheck(itemId));
@@ -39,7 +39,7 @@ export default class Item extends React.PureComponent {
   };
 
   render() {
-    const { itemId, itemName, allChecked, onItemCheck, itemChilds, itemNum } =
+    const { itemId, itemName, checkChilds, onItemCheck, itemChilds, itemNum } =
       this.props;
     const { checked, listHidden } = this.state;
     const { handleCheck, handleExpand } = this;
@@ -77,7 +77,7 @@ export default class Item extends React.PureComponent {
         {itemChilds && (
           <List
             objects={itemChilds}
-            allChecked={allChecked}
+            checkChilds={checkChilds}
             hidden={listHidden}
             onItemCheck={onItemCheck}
             listNum={listNum}
