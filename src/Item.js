@@ -22,10 +22,13 @@ export default class Item extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.allChecked !== this.props.allChecked) this.handleCheck();
+    const { allChecked } = this.props;
+    const { checked } = this.state;
+    if (prevProps.allChecked !== allChecked && allChecked !== checked)
+      this.handleCheck();
   }
 
-  handleCheck = () => {
+  handleCheck = (checkedState) => {
     const { onItemCheck, itemId } = this.props;
     const { checked } = this.state;
     this.setState({ checked: !checked }, () => onItemCheck(itemId));
@@ -40,28 +43,37 @@ export default class Item extends React.PureComponent {
       this.props;
     const { checked, listHidden } = this.state;
     const { handleCheck, handleExpand } = this;
-    let expandButton = <div className="expand-placeholder"></div>;
+    let chbxExpand;
     let listNum;
     let listKey;
     if (itemChilds) {
-      expandButton = (
-        <button className={"expand"} onClick={handleExpand}></button>
-      );
       listNum = itemNum;
       listKey = "ls-" + listNum;
+      chbxExpand = (
+        <input
+          className="chbx-expand custom expand-list"
+          type="checkbox"
+          name="expand list"
+          checked={!listHidden}
+          onChange={handleExpand}
+        />
+      );
     }
 
     return (
       <li>
-        {expandButton}
-        <input
-          className="check item"
-          type="checkbox"
-          checked={checked}
-          onChange={handleCheck}
-          id={"chbx-" + itemNum}
-        />
-        <div className="info">{itemName + " (ID:" + itemId + ")"}</div>
+        <span className="control-wrapper">{itemChilds && chbxExpand}</span>
+        <span className="control-wrapper">
+          <input
+            className="chbx custom check-item"
+            type="checkbox"
+            name="check item"
+            checked={checked}
+            onChange={handleCheck}
+            id={"chbx-" + itemNum}
+          />
+        </span>
+        <span className="item-info">{itemName + " (ID:" + itemId + ")"}</span>
         {itemChilds && (
           <List
             objects={itemChilds}

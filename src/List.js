@@ -50,15 +50,17 @@ export default class List extends React.Component {
     });
     return (
       <section className={sectionClassName}>
-        <input
-          className="check all"
-          type="checkbox"
-          checked={this.state.allChecked}
-          onChange={this.handleCheck}
-          id={"list-chbx-" + listNum}
-        />
-        <p className={"childs-text"}>выделить все</p>
-        <ul>{list}</ul>
+        <span className="list control-wrapper">
+          <input
+            className="chbx custom check-list"
+            type="checkbox"
+            checked={this.state.allChecked}
+            onChange={this.handleCheck}
+            id={"list-chbx-" + listNum}
+          />
+        </span>
+        <span>выделить все</span>
+        <ul className="list-items">{list}</ul>
       </section>
     );
   }

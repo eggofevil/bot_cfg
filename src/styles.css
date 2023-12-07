@@ -1,50 +1,65 @@
 * {
-  box-sizing: border-box;
   font-size: 16px;
+  line-height: 1.40;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 body {
   font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
+}
+
+ul {
+  list-style: none;
+  padding-inline-start: 22.4px;
 }
 
 .hidden {
   display: none;
 }
 
-ul,
-.childs {
-  margin: 0 0;
-  list-style: none;
-}
-.childs-text {
-  display: inline;
-  font-style: italic;
-  font-weight: bolder;
-  color:blue;
-}
-
-.check,
-.info,
-.expand-placeholder {
+.control-wrapper {
   display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  height: 22.4px;
+  width: 22.4px;
+  margin-top: 0;
+}
+.list.control-wrapper {
+  margin-left: 22.4px
 }
 
-.check.all {
-  margin-left: 59px;
+/*--- START of custom checkboxes ---*/
+.custom {
+  /*position & size*/
+  position: absolute;
+  top: 3.2px;
+  bottom: 3.2px;
+  width: 16px;
+  height: 16px;
+  /*default controls style reset*/
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /*default controls style override*/
+  border: 1px solid #000;
+  border-radius: 3px;
 }
-
-.expand {
-  padding: 0;
-  font-size: 16px;
-  width: 14px;
-  height: 14px;
-  vertical-align: text-top;
+.chbx.custom:checked {
+  background: url(svg/check.svg);
 }
-.expand-placeholder {
-  width: 12px;
-  height: 12px;
-  margin: 3px 3px 4px 4px;
+.chbx-expand.custom {
+  background: url(svg/plus.svg);
 }
-
+.chbx-expand.custom:checked {
+  background: url(svg/minus.svg);
+}
+.custom:hover {
+  border-color: #808080;
+}
+.custom:active,
+.custom:checked:active {
+  border-color: #a9a9a9;
+  background-color: #808080;
+}
+/*--- END of custom checkboxes ---*/
