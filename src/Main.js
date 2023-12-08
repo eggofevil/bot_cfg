@@ -2,6 +2,7 @@ import React from "react";
 
 import getExternalData from "./getExternalData";
 import List from "./List";
+import Result from "./Result";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -35,12 +36,24 @@ export default class Main extends React.Component {
     });
   };
 
-  showList = () =>
+  showResult = () =>
     this.state.checkedItems.map((item, index) => (
       <p style={{ display: "inline" }} key={"id-" + index}>
         {item + ", "}
       </p>
     ));
+
+  handleSubmit = (showFinal) => {
+    const { data, checkedItems } = this.state;
+    changeChecked = (array) =>
+      array.map((item) => {
+        if (item.childs) item.childs = changeChecked(item.childs);
+        if (checkedItems.indexOf(item.id) > -1) item.checked = true;
+        return item;
+      });
+    const createResultJSON = changeChecked(data.slice());
+    showFinal(result);
+  };
 
   render() {
     if (this.state.data) {
@@ -53,12 +66,16 @@ export default class Main extends React.Component {
             onItemCheck={this.setCheckedItems}
             hidden={false}
             listNum={listNum}
-            key={listNum}
+            key={listKey}
           />
-          <div className="show-list">
+          <div>
             <p>Выделенные категории:</p>
-            {this.showList()}
+            {this.showResult()}
           </div>
+          <Result
+            data={this.state.data}
+            checkedItems={this.state.checkedItems}
+          />
         </>
       );
     } else return "Данные не получены";

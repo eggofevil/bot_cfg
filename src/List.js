@@ -4,12 +4,11 @@ import Item from "./Item";
 
 export default class List extends React.Component {
   /*
-  objects - список объектов для формирования листа
-  checked - принимаем значение если вышестоящий лист был выбран
-  hidden - состояние листа - спрятан или нет
-  onItemCheck - передаем ниже - что делать в Item при нажатии на чекбокс
+  objects
+  onItemCheck
+  hidden
+  listNum
   */
-
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +32,7 @@ export default class List extends React.Component {
     const { checked } = this.state;
     const { handleCheck } = this;
 
-    const sectionClassName = hidden ? "childs hidden" : "childs";
+    const sectionClassName = hidden ? "hidden" + " items" : "items";
     const list = objects.map((object, index) => {
       const id = object.id;
       const name = object.name;
@@ -54,17 +53,17 @@ export default class List extends React.Component {
     });
     return (
       <section className={sectionClassName}>
-        <span className="list control-wrapper">
+        <span className="chbx-wrapper">
           <input
-            className="chbx custom check-list"
+            className="chbx-check custom"
             type="checkbox"
             checked={checked}
             onChange={handleCheck}
-            id={"list-chbx-" + listNum}
+            id={"ls-chbx-" + listNum}
           />
         </span>
-        <span>выделить все</span>
-        <ul className="list-items">{list}</ul>
+        <span className="check-all">выделить все</span>
+        <ul>{list}</ul>
       </section>
     );
   }

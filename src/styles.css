@@ -1,42 +1,38 @@
+/* цвета https://colorscheme.ru/html-colors.html */
 * {
   font-size: 16px;
   line-height: 1.40;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-body {
-  font-family: sans-serif;
-}
-
 ul {
   list-style: none;
-  padding-inline-start: 22.4px;
+  padding-inline-start: 0;
 }
 
 .hidden {
   display: none;
 }
 
-.control-wrapper {
+.chbx-wrapper {
   display: inline-block;
-  position: relative;
-  vertical-align: bottom;
-  height: 22.4px;
-  width: 22.4px;
-  margin-top: 0;
+  width: 24px;
 }
-.list.control-wrapper {
-  margin-left: 22.4px
+.items {
+  margin-left: 24px;
+}
+.check-all {
+  color: #708090;
+  font-style: italic;
 }
 
 /*--- START of custom checkboxes ---*/
 .custom {
   /*position & size*/
-  position: absolute;
-  top: 3.2px;
-  bottom: 3.2px;
   width: 16px;
   height: 16px;
+  vertical-align: text-top;
+  margin: 0 auto;
   /*default controls style reset*/
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -44,15 +40,6 @@ ul {
   /*default controls style override*/
   border: 1px solid #000;
   border-radius: 3px;
-}
-.chbx.custom:checked {
-  background: url(svg/check.svg);
-}
-.chbx-expand.custom {
-  background: url(svg/plus.svg);
-}
-.chbx-expand.custom:checked {
-  background: url(svg/minus.svg);
 }
 .custom:hover {
   border-color: #808080;
@@ -62,4 +49,14 @@ ul {
   border-color: #a9a9a9;
   background-color: #808080;
 }
+.chbx-check.custom:checked {
+  background: url(svg/check.svg);
+}
+.chbx-expand.custom {
+  background: url(svg/plus.svg);
+}
+.chbx-expand.custom:checked {
+  background: url(svg/minus.svg);
+}
+
 /*--- END of custom checkboxes ---*/

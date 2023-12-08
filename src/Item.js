@@ -7,11 +7,8 @@ export default class Item extends React.PureComponent {
   itemName
   checkChilds
   onItemCheck
-  itemChilds    
-  
-  //key={itemNumber}
-  //itemNumber={itemNumber}
-  //itemChecked={checked}
+  itemChilds
+  itemNum
   */
   constructor(props) {
     super(props);
@@ -51,7 +48,7 @@ export default class Item extends React.PureComponent {
       listKey = "ls-" + listNum;
       chbxExpand = (
         <input
-          className="chbx-expand custom expand-list"
+          className="chbx-expand custom"
           type="checkbox"
           name="expand list"
           checked={!listHidden}
@@ -62,10 +59,10 @@ export default class Item extends React.PureComponent {
 
     return (
       <li>
-        <span className="control-wrapper">{itemChilds && chbxExpand}</span>
-        <span className="control-wrapper">
+        <span className="chbx-wrapper">{itemChilds && chbxExpand}</span>
+        <span className="chbx-wrapper">
           <input
-            className="chbx custom check-item"
+            className="chbx-check custom"
             type="checkbox"
             name="check item"
             checked={checked}
@@ -73,7 +70,7 @@ export default class Item extends React.PureComponent {
             id={"chbx-" + itemNum}
           />
         </span>
-        <span className="item-info">{itemName + " (ID:" + itemId + ")"}</span>
+        {itemName + " (ID:" + itemId + ")"}
         {itemChilds && (
           <List
             objects={itemChilds}
